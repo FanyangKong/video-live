@@ -10,6 +10,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.meng.videolive.R;
@@ -23,19 +24,37 @@ public class HeadPagerFragment extends Fragment {
     private View mView;
     private PagerSlidingTabStrip mPagerSlidingTabStrip;
     private DisplayMetrics dm;
+    private LinearLayout root;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mView == null) {
             mView = inflater.inflate(R.layout.fragment_head_pager, container, false);
-            mPagerSlidingTabStrip = (PagerSlidingTabStrip) mView.findViewById(R.id.tab_host);
-            ViewPager viewPager = (ViewPager) mView.findViewById(R.id.view_pager);
+            ViewPager viewPager = inflater.inflate(R.layout.separate_viewpager, null).findViewById(R.id.view_pager);
+            root = mView.findViewById(R.id.root);
+            //mPagerSlidingTabStrip = (PagerSlidingTabStrip) mView.findViewById(R.id.tab_host);
+            // 代码生成 mPagerSlidingTabStrip
+            mPagerSlidingTabStrip = new PagerSlidingTabStrip(getActivity());
+            mPagerSlidingTabStrip.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 140));
+            mPagerSlidingTabStrip.setShouldExpand(true);
+            mPagerSlidingTabStrip.setAllCaps(true);
+            mPagerSlidingTabStrip.setTextSize(60);
+            mPagerSlidingTabStrip.setTextColor(Color.BLACK);
+            mPagerSlidingTabStrip.setDividerColor(Color.BLUE);
+            mPagerSlidingTabStrip.setDividerPadding(30);
+            mPagerSlidingTabStrip.setIndicatorColor(Color.RED);
+            mPagerSlidingTabStrip.setIndicatorHeight(15);
+            mPagerSlidingTabStrip.setUnderlineColor(Color.BLUE);
+
             if (viewPager != null) {
                 viewPager.setAdapter(new PagerAdapter(getFragmentManager()));
                 viewPager.setOffscreenPageLimit(1);
                 mPagerSlidingTabStrip.setViewPager(viewPager);
             }
+
+            root.addView(mPagerSlidingTabStrip);
+            root.addView(viewPager);
             setTabsValue();
         }
 
